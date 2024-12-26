@@ -1,0 +1,86 @@
+--[[
+MIT License
+Copyright (c) 2024 sigma-axis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+https://mit-license.org/
+]]
+
+--
+-- VERSION: v1.00
+--
+
+--------------------------------
+
+@Mask設定(拡大率指定)
+--track0:X,-2000,2000,0,0.1
+--track1:Y,-2000,2000,0,0.1
+--track2:回転,-720,720,0,0.01
+--track3:拡大率,0,1600,100,0.01
+--dialog:PI,_0=nil;
+obj.setanchor("track", 0);
+local x, y, angle, scale = obj.track0, obj.track1, obj.track2, obj.track3;
+if _0 then
+	local t0, t1, t2, t3  = _0[1], _0[2], _0[3], _0[4]; _0 = nil;
+	x = tonumber(t0) or x;
+	y = tonumber(t1) or y;
+	angle = tonumber(t2) or angle;
+	scale = tonumber(t3) or scale;
+end
+local ils_mask = require "ILS_Mask_S";
+ils_mask.settings_byscale(x, y, angle, scale / 100);
+
+@Mask設定(サイズ指定)
+--track0:X,-2000,2000,0,0.1
+--track1:Y,-2000,2000,0,0.1
+--track2:回転,-720,720,0,0.01
+--track3:サイズ,0,4000,200,0.1
+--dialog:PI,_0=nil;
+obj.setanchor("track", 0);
+local x, y, angle, size = obj.track0, obj.track1, obj.track2, obj.track3;
+if _0 then
+	local t0, t1, t2, t3  = _0[1], _0[2], _0[3], _0[4]; _0 = nil;
+	x = tonumber(t0) or x;
+	y = tonumber(t1) or y;
+	angle = tonumber(t2) or angle;
+	size = tonumber(t3) or size;
+end
+local ils_mask = require "ILS_Mask_S";
+ils_mask.settings_bysize(x, y, angle, size);
+
+@Mask
+--track0:強さ,0,200,100,0.01
+--track1:ぼかし,0,500,0,1
+--check0:マスクを反転,0
+--dialog:ILシーン名,_1="scn1";現在フレーム/chk,_2=0;最小α値/chk,_3=0;PI,_0=nil;
+local intensity, blur, invert, alpha_min, name, curr_frame = obj.track0, obj.track1, obj.check0, _3 ~= 0, _1, _2 ~= 0;
+_1 = nil; _2 = nil; _3 = nil;
+if _0 then
+	local c0, t0, t1  = _0[0], _0[1], _0[2]; _0 = nil;
+	if type(c0) == "boolean" then invert = c0;
+	elseif type(c0) == "number" then invert = c0 ~= 0 end
+	intensity = tonumber(t0) or intensity;
+	blur = tonumber(t1) or blur;
+end
+local ils_mask = require "ILS_Mask_S";
+local recall_settings = ils_mask.is_former_script(
+	"Mask設定(サイズ指定)",
+	"Mask設定(拡大率指定)");
+ils_mask.apply(name, intensity / 100, math.floor(blur + 0.5), invert, alpha_min, curr_frame, recall_settings);
