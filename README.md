@@ -6,7 +6,7 @@
 
 また，「上のオブジェクトでクリッピング」機能の柔軟な代替にもなります．
 
-[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl_script_ILS_Mask_S/releases) \[紹介動画準備中...\]
+[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl_script_ILS_Mask_S/releases) [紹介動画](https://www.nicovideo.jp/watch/sm44468536)
 
 ![マスクのデモ](https://github.com/user-attachments/assets/1c577f10-79b1-4253-87c4-dfb7d2766f1c)
 
